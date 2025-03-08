@@ -34,5 +34,13 @@ public class VacinaService {
     public List<Vacina> findAll() {
         return vacinaRepository.findAll();
     }
+    
+    public List<Vacina> findByNome(String nome) {
+        return vacinaRepository.findByNomeIgnoreCaseContaining(nome);
+    }
+
+    public List<Vacina> findByLote(String lote) {
+        return vacinaRepository.findByLote(lote);
+    }
 
 }

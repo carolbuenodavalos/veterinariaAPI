@@ -40,5 +40,12 @@ public class AnimalService {
         return animalRepository.findAll();
     }
 
+    public List<Animal> findByNome(String nome) {
+        return animalRepository.findByNomeIgnoreCaseContaining(nome);
+    }
+
+    public List<Animal> findByEspecie(String especie) {
+        return animalRepository.findByEspecie(especie);
+    }
 
 }

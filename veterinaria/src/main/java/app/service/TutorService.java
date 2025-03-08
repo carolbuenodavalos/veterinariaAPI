@@ -34,5 +34,13 @@ public class TutorService {
     public List<Tutor> findAll() {
         return tutorRepository.findAll();
     }
+    
+    public List<Tutor> findByNome(String nome) {
+        return tutorRepository.findByNomeIgnoreCaseContaining(nome);
+    }
+
+    public List<Tutor> findByCpf(String cpf) {
+        return tutorRepository.findByCpf(cpf);
+    }
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.entity.Medico;
@@ -60,6 +61,26 @@ public class MedicoController {
         try {
             List<Medico> lista = this.medicoService.findAll();
             return new ResponseEntity<>(lista, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @GetMapping("/findByNome")
+    public ResponseEntity<List<Medico>> findByNome(@RequestParam String nome) {
+        try {
+            List<Medico> medicos = this.medicoService.findByNome(nome);
+            return new ResponseEntity<>(medicos, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/findByEspecialidade")
+    public ResponseEntity<List<Medico>> findByEspecialidade(@RequestParam String especialidade) {
+        try {
+            List<Medico> medicos = this.medicoService.findByEspecialidade(especialidade);
+            return new ResponseEntity<>(medicos, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }

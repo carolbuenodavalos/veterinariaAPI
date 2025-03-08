@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.entity.Tutor;
@@ -64,4 +65,25 @@ public class TutorController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
+    
+    @GetMapping("/findByNome")
+    public ResponseEntity<List<Tutor>> findByNome(@RequestParam String nome) {
+        try {
+            List<Tutor> tutores = this.tutorService.findByNome(nome);
+            return new ResponseEntity<>(tutores, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/findByCpf")
+    public ResponseEntity<List<Tutor>> findByCpf(@RequestParam String cpf) {
+        try {
+            List<Tutor> tutores = this.tutorService.findByCpf(cpf);
+            return new ResponseEntity<>(tutores, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

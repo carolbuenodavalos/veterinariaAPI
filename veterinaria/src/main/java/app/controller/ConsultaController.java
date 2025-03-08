@@ -1,5 +1,6 @@
 package app.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,5 +70,35 @@ public class ConsultaController {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+    @GetMapping("/findByDataHora")
+    public ResponseEntity<List<Consulta>> findByDataHora(@RequestParam LocalDateTime dataHora) {
+        try {
+            List<Consulta> consultas = this.consultaService.findByDataHora(dataHora);
+            return new ResponseEntity<>(consultas, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/findByStatus")
+    public ResponseEntity<List<Consulta>> findByStatus(@RequestParam String status) {
+        try {
+            List<Consulta> consultas = this.consultaService.findByStatus(status);
+            return new ResponseEntity<>(consultas, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/findByAnimalId")
+    public ResponseEntity<List<Consulta>> findByAnimalId(@RequestParam Long animalId) {
+        try {
+            List<Consulta> consultas = this.consultaService.findByAnimalId(animalId);
+            return new ResponseEntity<>(consultas, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }

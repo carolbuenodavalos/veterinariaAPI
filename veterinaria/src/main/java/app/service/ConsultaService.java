@@ -1,5 +1,6 @@
 package app.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,4 +42,17 @@ public class ConsultaService {
         return consultaRepository.findAll();
     }
 
+    public List<Consulta> findByDataHora(LocalDateTime dataHora) {
+        return consultaRepository.findByDataHora(dataHora);
+    }
+
+    public List<Consulta> findByStatus(String status) {
+        return consultaRepository.findByStatus(status);
+    }
+
+    public List<Consulta> findByAnimalId(Long animalId) {
+        return consultaRepository.findByAnimalId(animalId);
+    }
+    
+    
 }

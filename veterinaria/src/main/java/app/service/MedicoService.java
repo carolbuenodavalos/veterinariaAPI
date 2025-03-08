@@ -35,4 +35,12 @@ public class MedicoService {
 		return medicoRepository.findAll();
     }
 
+    public List<Medico> findByNome(String nome) {
+        return medicoRepository.findByNomeIgnoreCaseContaining(nome);
+    }
+
+    public List<Medico> findByEspecialidade(String especialidade) {
+        return medicoRepository.findByEspecialidade(especialidade);
+    }
+    
 }
