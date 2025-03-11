@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import app.entity.Consulta;
 import app.entity.Tutor;
 import app.repository.TutorRepository;
 
@@ -17,13 +18,21 @@ public class TutorService {
 	
 	public String save(Tutor tutor) {
 		this.tutorRepository.save(tutor); 
-		return "Aluno salvo com sucesso";
+		return "salvo com sucesso";
 	}
 
 	public String delete(long id) {
 		this.tutorRepository.deleteById(id);
-		return "Aluno deletado com sucesso";
+		return "deletado com sucesso";
 	}
+	
+
+	public String update(long id, Tutor tutor) {
+		tutor.setId(id);
+		this.tutorRepository.save(tutor); 
+		return "atualizado com sucesso";
+	}
+	
 	
 	public Tutor findById(long id) { 
 		return this.tutorRepository.findById(id).get();

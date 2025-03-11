@@ -29,11 +29,18 @@ public class ConsultaService {
 
 	public String delete(long id) {
 		this.consultaRepository.deleteById(id);
-		return "Aluno deletado com sucesso";
+		return "deletado com sucesso";
 	}
 	
 	public Consulta findById(long id) { 
 		return this.consultaRepository.findById(id).get();
+	}
+	
+
+	public String update(long id, Consulta consulta) {
+		consulta.setId(id);
+		this.consultaRepository.save(consulta); 
+		return "atualizado com sucesso";
 	}
 	
 	

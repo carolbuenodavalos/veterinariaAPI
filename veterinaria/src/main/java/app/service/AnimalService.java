@@ -18,17 +18,25 @@ public class AnimalService {
     public String save(Animal animal) {
         // Regra de negócio com excecao
         if (animal.getTutor() == null) {
-            throw new RuntimeException("Não é possível cadastrar um animal sem associar a um tutor");
         }
         this.animalRepository.save(animal);
         return "Animal salvo com sucesso";
     }
 
 
+	public String update(long id, Animal animal) {
+		animal.setId(id);
+		this.animalRepository.save(animal); 
+		return "atualizado com sucesso";
+	}
+
+    
 	public String delete(long id) {
 		this.animalRepository.deleteById(id);
-		return "Aluno deletado com sucesso";
+		return "deletado com sucesso";
 	}
+	
+	
 	
 	public Animal findById(long id) { 
 		return this.animalRepository.findById(id).get();

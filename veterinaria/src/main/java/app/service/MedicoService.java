@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import app.entity.Consulta;
 import app.entity.Medico;
 import app.repository.MedicoRepository;
 
@@ -17,12 +18,19 @@ public class MedicoService {
 	
 	public String save(Medico consulta) {
 		this.medicoRepository.save(consulta); 
-		return "Aluno salvo com sucesso";
+		return "Salvo com sucesso";
 	}
 
 	public String delete(long id) {
 		this.medicoRepository.deleteById(id);
-		return "Aluno deletado com sucesso";
+		return "Deletado com sucesso";
+	}
+	
+
+	public String update(long id, Medico medico) {
+		medico.setId(id);
+		this.medicoRepository.save(medico); 
+		return "atualizado com sucesso";
 	}
 	
 	public Medico findById(long id) { 

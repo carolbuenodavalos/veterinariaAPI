@@ -68,5 +68,15 @@ public class AnimalController {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@PutMapping("/update/{id}")
+	public ResponseEntity<String> update(@PathVariable long id, @RequestBody Animal animal){
+		try {
+			String mensagem = this.animalService.update(id, animal);
+			return new ResponseEntity<>(mensagem, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+	}
 
 }

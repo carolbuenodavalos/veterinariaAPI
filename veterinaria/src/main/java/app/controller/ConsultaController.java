@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import app.entity.Animal;
 import app.entity.Consulta;
 import app.service.ConsultaService;
 
@@ -46,6 +47,16 @@ public class ConsultaController {
 			return new ResponseEntity<>(mensagem, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>("Deu erro!", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PutMapping("/update/{id}")
+	public ResponseEntity<String> update(@PathVariable long id, @RequestBody Consulta consulta){
+		try {
+			String mensagem = consultaService.update(id, consulta);
+			return new ResponseEntity<>(mensagem, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
