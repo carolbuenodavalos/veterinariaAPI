@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,64 +20,46 @@ import app.entity.Animal;
 import app.service.AnimalService;
 
 @RestController
-@RequestMapping("api/animal")
+@RequestMapping("/api/animal")
+@CrossOrigin("*")
 public class AnimalController {
-	
-	@Autowired
-	private AnimalService animalService;
-	
-	@PostMapping("/save")
-	public ResponseEntity<String> save(@RequestBody Animal animal) {
-	    try {
-	        String mensagem = this.animalService.save(animal);
-	        return new ResponseEntity<>(mensagem, HttpStatus.OK);
-	    } catch (Exception e) {
-	        System.out.println(e.getMessage());
-	        e.printStackTrace();
-	        return new ResponseEntity<>("Erro interno no servidor: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
-	}
-	
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> delete(@PathVariable long id){
-		try {
-			String mensagem = this.animalService.delete(id);
-			return new ResponseEntity<>(mensagem, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>("Deu erro!", HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@GetMapping("/findById/{id}")
-	public ResponseEntity<Animal> findById(@PathVariable long id){
-		try {
-			Animal animal = this.animalService.findById(id);
-			return new ResponseEntity<>(animal, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-		}
-	}
 
-	
-	
-	@GetMapping("/findAll")
-	public ResponseEntity<List<Animal>> findAll(){
-		try {
-			List<Animal> lista = this.animalService.findAll();
-			return new ResponseEntity<>(lista,HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@PutMapping("/update/{id}")
-	public ResponseEntity<String> update(@PathVariable long id, @RequestBody Animal animal){
-		try {
-			String mensagem = this.animalService.update(id, animal);
-			return new ResponseEntity<>(mensagem, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-		}
-	}
+    @Autowired
+    private AnimalService animalService;
 
+    @GetMapping("/findAll")
+    public ResponseEntity<List<Animal>> findAll() {
+        List<Animal> lista = this.animalService.findAll();
+        return new ResponseEntity<>(lista, HttpStatus.OK);
+    }
+
+    @GetMapping("/findByNome")
+    public ResponseEntity<List<Animal>> findByNome(@RequestParam("nome") String nome) {
+        List<Animal> lista = this.animalService.findByNome(nome);
+        return new ResponseEntity<>(lista, HttpStatus.OK);
+    }
+    
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<Animal> findById(@PathVariable("id") long id) {
+        Animal animal = this.animalService.findById(id);
+        return new ResponseEntity<>(animal, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteById/{id}")
+    public ResponseEntity<String> deleteById(@PathVariable("id") long id) {
+        String mensagem = this.animalService.delete(id);
+        return new ResponseEntity<>(mensagem, HttpStatus.OK);
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<String> save(@RequestBody Animal animal) {
+        String mensagem = this.animalService.save(animal);
+        return new ResponseEntity<>(mensagem, HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> update(@RequestBody Animal animal, @PathVariable("id") long id) {
+        String mensagem = this.animalService.update(id, animal);
+        return new ResponseEntity<>(mensagem, HttpStatus.OK);
+    }
 }
