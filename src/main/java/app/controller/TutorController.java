@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,12 +29,14 @@ public class TutorController {
     @Autowired
     private TutorService tutorService;
 
+    
     @GetMapping("/findAll")
     public ResponseEntity<List<Tutor>> findAll() {
         List<Tutor> lista = this.tutorService.findAll();
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
+    
     @GetMapping("/findByNome")
     public ResponseEntity<List<Tutor>> findByNome(@RequestParam("nome") String nome) {
         List<Tutor> tutores = this.tutorService.findByNome(nome);
@@ -52,18 +55,21 @@ public class TutorController {
         return new ResponseEntity<>(tutor, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/deleteById/{id}")
     public ResponseEntity<String> deleteById(@PathVariable("id") long id) {
         String mensagem = this.tutorService.delete(id);
         return new ResponseEntity<>(mensagem, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/save")
     public ResponseEntity<String> save(@RequestBody Tutor tutor) {
         String mensagem = this.tutorService.save(tutor);
         return new ResponseEntity<>(mensagem, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<String> update(@RequestBody Tutor tutor, @PathVariable("id") long id) {
         String mensagem = this.tutorService.update(id, tutor);
