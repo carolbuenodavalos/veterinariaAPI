@@ -27,36 +27,34 @@ public class JwtServiceGenerator {
 	public static final SignatureAlgorithm ALGORITMO_ASSINATURA = SignatureAlgorithm.HS256;
 	public static final int HORAS_EXPIRACAO_TOKEN = 1;
 
-	public Map<String, Object> gerarPayload(Usuario usuario){
-		//AQUI VOCÊ PODE COLOCAR O QUE MAIS VAI COMPOR O PAYLOAD DO TOKEN
-		
-		Map<String, Object> payloadData = new HashMap<>();
-		payloadData.put("username", usuario.getUsername());
-		payloadData.put("id", usuario.getId().toString());
-		payloadData.put("role", usuario.getRole());
-		payloadData.put("outracoisa", "teste");
-		
-		return payloadData;
+	public Map<String, Object> gerarPayload(Usuario usuario, Long medicoId){
+	    Map<String, Object> payloadData = new HashMap<>();
+	    payloadData.put("username", usuario.getUsername());
+	    payloadData.put("id", usuario.getId().toString());
+	    payloadData.put("role", usuario.getRole());
+	    payloadData.put("nome_completo", usuario.getNomeCompleto());
+	    if (medicoId != null) {
+	        payloadData.put("medicoId", medicoId);
+	    }
+	    return payloadData;
 	}
-
 	///////////////////////////////////////////////////////
 
 	
 	
 	
 	
-	public String generateToken(Usuario usuario) {
+	public String generateToken(Usuario usuario, Long medicoId) {
+	    Map<String, Object> payloadData = this.gerarPayload(usuario, medicoId);
 
-		Map<String, Object> payloadData = this.gerarPayload(usuario);
-
-		return Jwts
-				.builder()
-				.setClaims(payloadData)
-				.setSubject(usuario.getUsername())
-				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(new Date().getTime() + 3600000 * this.HORAS_EXPIRACAO_TOKEN))
-				.signWith(getSigningKey(), this.ALGORITMO_ASSINATURA)
-				.compact();
+	    return Jwts
+	            .builder()
+	            .setClaims(payloadData)
+	            .setSubject(usuario.getUsername())
+	            .setIssuedAt(new Date(System.currentTimeMillis()))
+	            .setExpiration(new Date(new Date().getTime() + 3600000 * this.HORAS_EXPIRACAO_TOKEN))
+	            .signWith(getSigningKey(), this.ALGORITMO_ASSINATURA)
+	            .compact();
 	}
 
 	private Claims extractAllClaims(String token) {

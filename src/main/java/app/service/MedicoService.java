@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import app.auth.LoginRepository;
+import app.auth.Usuario;
 import app.entity.Consulta;
 import app.entity.Medico;
 import app.repository.MedicoRepository;
@@ -15,6 +17,17 @@ public class MedicoService {
 	@Autowired
 	private MedicoRepository medicoRepository;
 	
+	@Autowired
+	private LoginRepository loginRepository;
+
+	public String save(Medico medico, String username) {
+	    Usuario usuario = loginRepository.findByUsername(username)
+	        .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+	    medico.setUsuario(usuario);
+	    medicoRepository.save(medico);
+	    return "Salvo com sucesso";
+	    
+	}
 	
 	public String save(Medico consulta) {
 		this.medicoRepository.save(consulta); 
@@ -51,4 +64,8 @@ public class MedicoService {
         return medicoRepository.findByEspecialidade(especialidade);
     }
     
+    
+    public Medico findByUsuarioId(Long usuarioId) {
+        return medicoRepository.findByUsuarioId(usuarioId);
+    }
 }

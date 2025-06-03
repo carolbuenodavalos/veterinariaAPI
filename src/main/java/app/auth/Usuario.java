@@ -29,6 +29,7 @@ public class Usuario implements UserDetails{
 	private String username;
 	private String password;
 	private String role;
+	private String NomeCompleto;
 
 	@Override
 	@JsonIgnore

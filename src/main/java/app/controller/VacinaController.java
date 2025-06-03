@@ -53,7 +53,7 @@ public class VacinaController {
         return new ResponseEntity<>(vacina, HttpStatus.OK);
     }
 
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/deleteById/{id}")
 	public ResponseEntity<String> delete(@PathVariable long id){
 
 			String mensagem = this.vacinaService.delete(id);

@@ -6,11 +6,14 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import app.auth.Usuario;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -32,6 +35,8 @@ public class Medico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String username;
+    
     @NotBlank(message = "O nome do médico é obrigatório")
     private String nome;
 
@@ -50,10 +55,14 @@ public class Medico {
     private String telefone;
 
     @OneToMany(mappedBy = "medico")
-    @JsonIgnoreProperties("medico")
+    @JsonIgnoreProperties({"medico", "animal", "animais", "consultas"})
     private List<Consulta> consultas;
 
     @ManyToMany(mappedBy = "medicos")
-    @JsonIgnoreProperties("medicos")
+    @JsonIgnoreProperties({"medicos", "consultas"})
     private List<Animal> animais;
+    
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 }

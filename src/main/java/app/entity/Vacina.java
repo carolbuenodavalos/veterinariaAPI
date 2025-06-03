@@ -31,11 +31,8 @@ public class Vacina {
 
     @NotBlank(message = "O nome da vacina é obrigatório")
     private String nome;
-
-    @NotNull(message = "A data de aplicação é obrigatória")
-    private LocalDate dataAplicacao;
-
-    private LocalDate dataProximaDose;
+    
+    private LocalDate dataValidade;
 
     @NotBlank(message = "O lote da vacina é obrigatório")
     private String lote;

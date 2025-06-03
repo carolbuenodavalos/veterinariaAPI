@@ -60,6 +60,10 @@ public class ConsultaService {
     public List<Consulta> findByAnimalId(Long animalId) {
         return consultaRepository.findByAnimalId(animalId);
     }
+        
+    public List<Consulta> findByVeterinario(String username) {
+        return consultaRepository.findByVeterinarioUsername(username);
+    }
     
     
 }

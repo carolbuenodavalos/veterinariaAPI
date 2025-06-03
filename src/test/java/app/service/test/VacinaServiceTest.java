@@ -28,8 +28,7 @@ public class VacinaServiceTest {
         Vacina vacina = new Vacina();
         vacina.setNome("Antirrábica");
         vacina.setLote("123");
-        vacina.setDataAplicacao(LocalDate.now());
-        vacina.setDataProximaDose(LocalDate.now().plusMonths(6));
+        vacina.setDataValidade(LocalDate.now());
         return vacina;
     }
 

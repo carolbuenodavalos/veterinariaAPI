@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.entity.Animal;
+import app.repository.AnimalRepository;
 import app.service.AnimalService;
 import jakarta.validation.Valid;
 
@@ -27,6 +28,9 @@ public class AnimalController {
 
     @Autowired
     private AnimalService animalService;
+    @Autowired
+    private AnimalRepository animalRepository;
+
 
     @GetMapping("/findAll")
     public ResponseEntity<List<Animal>> findAll() {
@@ -62,5 +66,10 @@ public class AnimalController {
     public ResponseEntity<String> update(@RequestBody Animal animal, @PathVariable("id") long id) {
         String mensagem = this.animalService.update(id, animal);
         return new ResponseEntity<>(mensagem, HttpStatus.OK);
+    }
+    
+    @GetMapping("/count")
+    public Long countAnimal() {
+        return animalRepository.count();
     }
 }

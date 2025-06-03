@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import app.entity.Animal;
 import app.entity.Tutor;
+import app.repository.TutorRepository;
 import app.service.TutorService;
 
 @RestController
@@ -29,6 +30,8 @@ public class TutorController {
     @Autowired
     private TutorService tutorService;
 
+    @Autowired
+    private TutorRepository tutorRepository;
     
     @GetMapping("/findAll")
     public ResponseEntity<List<Tutor>> findAll() {
@@ -74,5 +77,11 @@ public class TutorController {
     public ResponseEntity<String> update(@RequestBody Tutor tutor, @PathVariable("id") long id) {
         String mensagem = this.tutorService.update(id, tutor);
         return new ResponseEntity<>(mensagem, HttpStatus.OK);
+    }
+    
+    
+    @GetMapping("/count")
+    public Long countTutor() {
+        return tutorRepository.count();
     }
 }

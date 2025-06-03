@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.entity.Consulta;
+import app.repository.ConsultaRepository;
 import app.service.ConsultaService;
 
 @RestController
@@ -27,6 +30,9 @@ public class ConsultaController {
 
     @Autowired
     private ConsultaService consultaService;
+    
+    @Autowired
+    private ConsultaRepository consultaRepository;
 
     @GetMapping("/findAll")
     public ResponseEntity<List<Consulta>> findAll() {
@@ -49,6 +55,15 @@ public class ConsultaController {
     @GetMapping("/findByAnimalId")
     public ResponseEntity<List<Consulta>> findByAnimalId(@RequestParam Long animalId) {
         List<Consulta> consultas = this.consultaService.findByAnimalId(animalId);
+        return new ResponseEntity<>(consultas, HttpStatus.OK);
+    }
+    
+
+    @PreAuthorize("hasRole('VETERINARIO')")
+    @GetMapping("/minhas-consultas")
+    public ResponseEntity<List<Consulta>> minhasConsultas(Authentication authentication) {
+        String username = authentication.getName();
+        List<Consulta> consultas = consultaService.findByVeterinario(username);
         return new ResponseEntity<>(consultas, HttpStatus.OK);
     }
 
@@ -74,5 +89,11 @@ public class ConsultaController {
     public ResponseEntity<String> update(@PathVariable("id") long id, @RequestBody Consulta consulta) {
         String mensagem = this.consultaService.update(id, consulta);
         return new ResponseEntity<>(mensagem, HttpStatus.OK);
+    }
+
+    // AGORA fora de qualquer outro método:
+    @GetMapping("/medico/{id}/proximas-consultas")
+    public List<Consulta> getProximasConsultasDoMedico(@PathVariable Long id) {
+        return consultaRepository.findByMedicoIdAndDataHoraAfterOrderByDataHoraAsc(id, LocalDateTime.now());
     }
 }

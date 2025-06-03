@@ -37,13 +37,12 @@ public class VacinaControllerTest {
         vacinaValida = new Vacina();
         vacinaValida.setId(1L);
         vacinaValida.setNome("Raiva");
-        vacinaValida.setDataAplicacao(LocalDate.now());
+        vacinaValida.setDataValidade(LocalDate.now());
         vacinaValida.setLote("LOTE123");
-        vacinaValida.setDataProximaDose(LocalDate.now().plusYears(1));
 
         vacinaInvalida = new Vacina();
         vacinaInvalida.setNome("");
-        vacinaInvalida.setDataAplicacao(null);
+        vacinaInvalida.setDataValidade(null);
     }
 
     @Test

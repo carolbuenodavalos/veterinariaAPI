@@ -53,13 +53,15 @@ public class Consulta {
     @NotNull(message = "O animal da consulta é obrigatório")
     @ManyToOne
     @JoinColumn(name = "animal_id")
-    @JsonIgnoreProperties("consultas")
+    @JsonIgnoreProperties({"consultas", "medicos", "vacinas"})
     private Animal animal;
 
     @NotNull(message = "O médico da consulta é obrigatório")
     @ManyToOne
     @JoinColumn(name = "medico_id")
-    @JsonIgnoreProperties("consultas")
+    @JsonIgnoreProperties({"consultas", "animais"})
     private Medico medico;
+    
+    
 }
 

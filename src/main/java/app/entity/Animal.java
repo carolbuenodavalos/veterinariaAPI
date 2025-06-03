@@ -65,7 +65,7 @@ public class Animal {
 
     @ManyToMany
     @JoinTable(name = "animal_medico")
-    @JsonIgnoreProperties("animais")
+    @JsonIgnoreProperties({"animais", "consultas"})
     private List<Medico> medicos;
 
 }
