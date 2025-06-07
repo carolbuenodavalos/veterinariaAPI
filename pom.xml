@@ -88,14 +88,16 @@
     <build>
         <plugins>
         
+
         <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>3.4.2</version>
-          <configuration>
-                <mainClass>com.app.AppMain</mainClass>
+            <configuration>
+                <mainClass>com.veterinariaApi.veterinaria.VeterinariaApiApplication</mainClass>
             </configuration>
         </plugin>
+ 
+
  
             <plugin>
                 <groupId>org.springframework.boot</groupId>
